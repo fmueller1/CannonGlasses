@@ -5,6 +5,8 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import org.joml.Vector2d;
+import org.slf4j.Logger;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -16,6 +18,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class EntityMixin implements CameraOverriddenEntity {
     @Shadow
     public abstract void setAngles(float yaw, float pitch);
+
+    @Shadow
+    @Final
+    private static Logger LOGGER;
+    @Shadow
+    private float yaw;
+    @Shadow
+    private float pitch;
     @Unique
     private float cameraPitch;
 
@@ -34,8 +44,11 @@ public abstract class EntityMixin implements CameraOverriddenEntity {
         this.cameraPitch = MathHelper.clamp(this.cameraPitch + (float) pitchDelta, -90.0f, 90.0f);
         this.cameraYaw += (float) yawDelta;
 
-        Vector2D newDirection = Meth.targetInput(new Vector2D(cameraPitch, cameraYaw), new MCCannonModel());
-        this.setAngles((float)newDirection.x,(float)newDirection.y);
+        Vector2D viewVectorRadiens = new Vector2D(cameraYaw, cameraPitch).convertToRads();
+        Vector2D out = Meth.targetInput(viewVectorRadiens, new MCCannonModel()).convertToDegrees();
+        this.setAngles((float)out.x, (float)out.y);
+        LOGGER.info("output: " + out.toString());
+        LOGGER.info("actual view direction: " + this.yaw + ", " + this.pitch);
 
         ci.cancel();
     }
