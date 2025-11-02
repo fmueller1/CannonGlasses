@@ -2,6 +2,8 @@ package freelook.freelook.mixin;
 
 import freelook.freelook.CameraOverriddenEntity;
 import freelook.freelook.FreeLookMod;
+import freelook.freelook.Meth;
+import freelook.freelook.Vector2D;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
@@ -35,7 +37,7 @@ public abstract class EntityMixin implements CameraOverriddenEntity {
         this.cameraPitch = MathHelper.clamp(this.cameraPitch + (float) pitchDelta, -90.0f, 90.0f);
         this.cameraYaw += (float) yawDelta;
 
-        Vector2d newDirection = FreeLookMod.cannonMath.getNewCameraDirection(this.cameraYaw, this.cameraPitch);
+        Vector2d newDirection = Meth.targetInput(new MCC,new Vector2D(cameraPitch, cameraYaw));
         this.setAngles((float)newDirection.x,(float)newDirection.y);
 
         ci.cancel();
