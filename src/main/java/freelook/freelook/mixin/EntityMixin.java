@@ -43,6 +43,12 @@ public abstract class EntityMixin implements CameraOverriddenEntity {
 
         this.cameraPitch = MathHelper.clamp(this.cameraPitch + (float) pitchDelta, -90.0f, 90.0f);
         this.cameraYaw += (float) yawDelta;
+        if(cameraYaw >= 180){
+            cameraYaw -= 360;
+        }
+        if(cameraYaw <= -180){
+            cameraYaw += 360;
+        }
 
         Vector2D viewVectorRadiens = new Vector2D(cameraYaw, cameraPitch).convertToRads();
         Vector2D out = Meth.targetInput(viewVectorRadiens, new MCCannonModel()).convertToDegrees();
