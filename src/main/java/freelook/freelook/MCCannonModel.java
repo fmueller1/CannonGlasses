@@ -11,7 +11,7 @@ public class MCCannonModel implements Differentiand{
     final double initialTNTYOffset = 0.25;
     final double initialTNTZOffset = 0;
     final double initialArrowXOffset = 0;
-    final double initialArrowYOffset = 0;
+    final double initialArrowYOffset = 0.084;
     final double initialArrowZOffset = 0;
 
     public Vector2D f(final Vector2D in) {
