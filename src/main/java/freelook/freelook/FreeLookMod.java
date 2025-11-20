@@ -29,7 +29,14 @@ public class FreeLookMod implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         config.load();
-        this.freeLookKeyBind = KeyBindingHelper.registerKeyBinding(new KeyBinding("freelook.key.activate", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_LEFT_ALT, "freelook.key.category"));
+        this.freeLookKeyBind = KeyBindingHelper.registerKeyBinding(
+                new KeyBinding(
+                        "freelook.key.activate",
+                        InputUtil.Type.KEYSYM,
+                        GLFW.GLFW_KEY_LEFT_ALT,
+                        "freelook.key.category"
+                )
+        );
         this.freeLookScreenKeyBind = KeyBindingHelper.registerKeyBinding(new KeyBinding("freelook.key.menu", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_M, "freelook.key.category"));
         ClientTickEvents.END_CLIENT_TICK.register(this::onTickEnd);
     }
